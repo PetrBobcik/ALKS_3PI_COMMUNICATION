@@ -1,6 +1,6 @@
 # ALKS_3PI_COMMUNICATION
 
-Repozitář obsahuje 4 soubory:
+Repozitář obsahuje 4 soubory ve složce ALKS_3PI_COMMUNICATION:
   1) 3pi_include
   2) 3pi_main
   3) ALKS_include
