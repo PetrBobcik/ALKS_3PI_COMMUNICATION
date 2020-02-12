@@ -14,9 +14,9 @@
 #ifndef ALKS_3PI
 #define ALKS_3PI
 
-#define BUTTON_C    1 << 5
-#define BUTTON_B    1 << 4
 #define BUTTON_A    1 << 1
+#define BUTTON_B    1 << 4
+#define BUTTON_C    1 << 5
 
 #define SERIAL_BAUD_RATE  115200
 #define AVAKAR_HEADER     0x80
@@ -49,8 +49,19 @@ void setMotorPower(int16_t left, int16_t right){
     uint8_t command_and_data_len = ((MOTOR_COMMAND+2)<<2) | (0x2);
     Serial.write(AVAKAR_HEADER);
     Serial.write(command_and_data_len);
-    Serial.write(left);
-    Serial.write(right);
+    
+    if(left < 0){
+        left *= -1;
+        left |= 0x80;
+    }
+
+    if(right < 0){
+        right *= -1;
+        right |= 0x80;
+    }
+
+    Serial.write( left ); 
+    Serial.write( right );
 }
 
 void setMotorPowerID(uint8_t motor, int16_t speed){
@@ -124,8 +135,6 @@ int16_t getLinePos(bool white_line = false){
     Serial.write(AVAKAR_HEADER);
     Serial.write(command_and_data_len);
     Serial.write(white_line);
-    
-
 }
 
 inline void calibrate_sensors(){
