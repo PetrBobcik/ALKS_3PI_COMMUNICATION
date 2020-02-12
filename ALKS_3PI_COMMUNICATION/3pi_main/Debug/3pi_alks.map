@@ -720,11 +720,11 @@ END GROUP
  *(.debug_frame)
  .debug_frame   0x00000000      0x43c 3pi_BatteryControl.o
 
-.debug_str      0x00000000     0x13d9
+.debug_str      0x00000000     0x1402
  *(.debug_str)
  .debug_str     0x00000000      0x208 F:/AtmelStudio_7.0/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208     0x11d1 3pi_BatteryControl.o
-                               0x1270 (size before relaxing)
+ .debug_str     0x00000208     0x11fa 3pi_BatteryControl.o
+                               0x1299 (size before relaxing)
 
 .debug_loc      0x00000000     0x28a0
  *(.debug_loc)
