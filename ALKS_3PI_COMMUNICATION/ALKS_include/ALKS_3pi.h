@@ -145,7 +145,7 @@ inline bool isPressed(uint8_t buttons){
     Serial.write(buttons);
     while( Serial.peek() == -1 );
 
-    if( Serial.read() == 1 )
+    if( Serial.read() == '1' )
         return true;
 
     return false;
