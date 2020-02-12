@@ -104,17 +104,34 @@ void resetTicks();
 
 // Surface and battery sensors functions
 inline int16_t getSensorValue(uint8_t index){
-    /*uint8_t command_and_data_len = (SENSOR_COMMAND+1<<2) | (0x1);
+    uint16_t result = 0;
+    uint8_t command_and_data_len = (SENSOR_COMMAND<<2) | (0x1); 
+
     Serial.write(AVAKAR_HEADER);
     Serial.write(command_and_data_len);
-    Serial.write(index);*/
-}
+    Serial.write(index);
+
+    while( Serial.peek() == -1 );   
+    result = Serial.read();         // read lower Byete from serial
+    while( Serial.peek() == -1 );   
+    result |= (Serial.read() << 8); // read upper Byete from serial and merge them together
+    return result;                  // 0-1024
+} 
+
 int16_t getLinePos(bool white_line = false){
+    uint8_t command_and_data_len = ((SENSOR_COMMAND+1)<<2) | (0x2);
+    
+    Serial.write(AVAKAR_HEADER);
+    Serial.write(command_and_data_len);
+    Serial.write(white_line);
+    
 
 }
+
 inline void calibrate_sensors(){
     
 }
+
 void cal_round();
 void store_sensor_cal(uint16_t address);
 void load_sensor_cal(uint16_t address);
@@ -127,19 +144,29 @@ inline bool isPressed(uint8_t buttons){
     Serial.write(command_and_data_len);
     Serial.write(buttons);
     while( Serial.peek() == -1 );
-    if((char)Serial.read() == '1' )
+
+    if( Serial.read() == 1 )
         return true;
+
     return false;
 }
 
 inline uint8_t waitForPress(uint8_t buttons){
-    
+    while( !isPressed(buttons) );
+    return 1;
 }
+
 inline uint8_t waitForRelease(uint8_t buttons){
-    
+    while( isPressed(buttons) );
+    return 0;
 }
+
 inline void waitForButton(uint8_t buttons){
-    
+    bool state = isPressed( buttons );
+    if(state)
+        while(isPressed(buttons));
+    else
+        while(!isPressed(buttons));
 }
 
 // EEPROM functions
